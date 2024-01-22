@@ -2,6 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import styled from "styled-components";
 import { useCreateComment } from "./useCreateComment";
+import {getWithExpiry} from "../../helpers/localStorageOperations";
 
 const Form = styled.form`
   display: flex;
@@ -80,8 +81,11 @@ const Submit = styled.button`
 
 function CommentForm({ ticketId }) {
   const queryClient = useQueryClient();
-  const token = queryClient.getQueryData(["token"]);
+  // const token = queryClient.getQueryData(["token"]);
+  // const token = localStorage.getItem("token");
+  const token = getWithExpiry("token");
   const { createComment, isCreating } = useCreateComment();
+
   function handleSubmit(e) {
     e.preventDefault();
     const payload = {

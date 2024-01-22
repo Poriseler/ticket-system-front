@@ -51,9 +51,9 @@ const P = styled.p`
   }
 `;
 
-const Span = styled.span`
-  font-weight: bold;
-`;
+// const Span = styled.span`
+//   font-weight: bold;
+// `;
 
 const PDate = styled.p`
   margin: 0px;
@@ -72,8 +72,8 @@ const PDate = styled.p`
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: end;
-  width: 30%;
+  align-items: center;
+  /* width: 30%; */
 `;
 
 function TicketTile({ data }) {
@@ -94,10 +94,12 @@ function TicketTile({ data }) {
       </P>
       <Div>
         <PDate>
-          <Span>Created at:</Span> {convertDate(createdAt)}
+          {/* <Span>Created at:</Span>  */}
+          {convertDate(createdAt)}
         </PDate>
         <PDate>
-          <Span>Updated at:</Span> {convertDate(updatedAt)}
+          {/* <Span>Updated at:</Span>  */}
+          {convertDate(updatedAt)}
         </PDate>
       </Div>
       <PId>{id}</PId>

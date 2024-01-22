@@ -1,5 +1,8 @@
 import axios from "axios";
 
+const host = import.meta.env.VITE_API_HOST;
+const port = import.meta.env.VITE_API_PORT;
+
 export async function createComment({ token }, payload) {
   const config = {
     headers: {
@@ -8,7 +11,7 @@ export async function createComment({ token }, payload) {
   };
 
   const { data } = await axios.post(
-    "http://127.0.0.1:8080/api/comments/",
+    `http://${host}:${port}/api/comments/`,
     payload,
     config
   );
@@ -24,7 +27,7 @@ export async function updateComment(token, payload, commentId) {
   };
 
   const { data } = await axios.patch(
-    `http://127.0.0.1:8080/api/comments/${commentId}/`,
+    `http://${host}:${port}/api/comments/${commentId}/`,
     payload,
     config
   );

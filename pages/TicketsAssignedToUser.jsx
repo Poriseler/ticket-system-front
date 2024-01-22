@@ -1,17 +1,19 @@
 import styled from "styled-components";
 import TicketTile from "../features/tickets/TicketTile";
-import { useQueryClient } from "@tanstack/react-query";
+// import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { ticketsAssignedToUser } from "../services/apiTickets";
 import Button from "../ui/Button";
 import Spinner from "../ui/Spinner";
 import toast from "react-hot-toast";
+import { getWithExpiry } from "../helpers/localStorageOperations";
 
 const Div = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
   padding-top: 5rem;
+  width: 100%;
 `;
 const Container = styled.div`
   display: flex;
@@ -28,8 +30,10 @@ const P = styled.p`
 `;
 
 function TicketsAssignedToUser() {
-  const queryClient = useQueryClient();
-  const token = queryClient.getQueryData(["token"]);
+  // const queryClient = useQueryClient();
+  // const token = queryClient.getQueryData(["token"]);
+  // const token = localStorage.getItem('token')
+  const token = getWithExpiry("token");
   const [isPrev, setIsPrev] = useState(null);
   const [curPage, setCurPage] = useState(1);
   const [isNext, setIsNext] = useState(null);

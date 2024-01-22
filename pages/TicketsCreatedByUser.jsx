@@ -1,4 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
+// import { useQueryClient } from "@tanstack/react-query";
 import TicketTile from "../features/tickets/TicketTile";
 import styled from "styled-components";
 import { ticketsCreatedByUser } from "../services/apiTickets";
@@ -6,12 +6,14 @@ import { useEffect, useState } from "react";
 import Button from "../ui/Button";
 import Spinner from "../ui/Spinner";
 import toast from "react-hot-toast";
+import {getWithExpiry} from "../helpers/localStorageOperations";
 
 const Div = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
   padding-top: 5rem;
+  width: 100%;
 `;
 
 const P = styled.p`
@@ -29,9 +31,10 @@ const Container = styled.div`
 `;
 
 function TicketsCreatedByUser() {
-  const queryClient = useQueryClient();
-  const token = queryClient.getQueryData(["token"]);
-
+  // const queryClient = useQueryClient();
+  // const token = queryClient.getQueryData(["token"]);
+  // const token = localStorage.getItem('token')
+  const token = getWithExpiry("token");
   const [isPrev, setIsPrev] = useState(null);
   const [curPage, setCurPage] = useState(1);
   const [isNext, setIsNext] = useState(null);

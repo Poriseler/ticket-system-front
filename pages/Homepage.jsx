@@ -8,13 +8,18 @@ import { fetchTickets } from "../services/apiTickets";
 import Button from "../ui/Button";
 import Spinner from "../ui/Spinner";
 import toast from "react-hot-toast";
+<<<<<<< Updated upstream
 import { useTickets } from "../features/tickets/useTickets";
 import { useInfiniteQuery } from "@tanstack/react-query";
+=======
+import TicketHeaderTile from "../ui/TicketHeaderTile";
+>>>>>>> Stashed changes
 
 const Div = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  width: 100%;
 `;
 
 const P = styled.p`
@@ -130,7 +135,12 @@ function Homepage() {
       </Container>
 
       <Div>
+<<<<<<< Updated upstream
         {data?.pages[0].results.map((ticket) => (
+=======
+        <TicketHeaderTile />
+        {tickets?.map((ticket) => (
+>>>>>>> Stashed changes
           <TicketTile key={ticket.id} data={ticket} />
         )) || <Spinner />}
       </Div>

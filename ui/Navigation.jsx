@@ -1,6 +1,7 @@
-import { useQueryClient } from "@tanstack/react-query";
+// import { useQueryClient } from "@tanstack/react-query";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import {getWithExpiry} from "../helpers/localStorageOperations";
 import {
   IdentificationIcon,
   HomeIcon,
@@ -78,13 +79,15 @@ const Li = styled.li`
 `;
 
 function Navigation() {
-  const queryClient = useQueryClient();
-  const token = queryClient.getQueryData(["token"]);
+  // const queryClient = useQueryClient();
+  // const token = queryClient.getQueryData(["token"]);
+  // const token = localStorage.getItem("token");
+  const token = getWithExpiry("token");
 
   return (
     <Nav>
       <NavList>
-        {token === 0 && (
+        {!token && (
           <Li>
             <StyledNavLink to="/login">
               <IdentificationIcon /> <Span>Login</Span>
@@ -96,28 +99,28 @@ function Navigation() {
             <HomeIcon /> <Span>Home</Span>
           </StyledNavLink>
         </Li>
-        {token !== 0 && (
+        {token && (
           <Li>
             <StyledNavLink to="/tickets/assigned-to-me">
               <BriefcaseIcon /> <Span>Assigned to me</Span>
             </StyledNavLink>
           </Li>
         )}
-        {token !== 0 && (
+        {token && (
           <Li>
             <StyledNavLink to="/tickets/created-by-me">
               <FlagIcon /> <Span>My tickets</Span>
             </StyledNavLink>
           </Li>
         )}
-        {token !== 0 && (
+        {token && (
           <Li>
             <StyledNavLink to="/tickets/create">
               <TicketIcon /> <Span>Create ticket</Span>
             </StyledNavLink>
           </Li>
         )}
-        {token !== 0 && (
+        {token && (
           <Li>
             <StyledNavLink to="/profile">
               <UserIcon /> <Span>Profile</Span>

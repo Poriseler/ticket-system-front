@@ -3,7 +3,8 @@ import styled from "styled-components";
 import Button from "../../ui/Button";
 import { useState } from "react";
 import { useTicketChange } from "./useTicketChange";
-import { useQueryClient } from "@tanstack/react-query";
+// import { useQueryClient } from "@tanstack/react-query";
+import { getWithExpiry } from "../../helpers/localStorageOperations";
 
 const IconContainer = styled.div`
   align-self: flex-end;
@@ -65,7 +66,7 @@ function EditTicketForm({ closeModal, ticketData }) {
   const [description, setDescription] = useState(ticketData.description);
   const [priority, setPriority] = useState(ticketData.priority);
   const { updateTicket, isUpdating } = useTicketChange();
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   function submitChange(e) {
     e.preventDefault();
@@ -75,7 +76,9 @@ function EditTicketForm({ closeModal, ticketData }) {
       priority: priority,
     };
 
-    const token = queryClient.getQueryData(["token"]);
+    // const token = queryClient.getQueryData(["token"]);
+    // const token = localStorage.getItem('token')
+    const token = getWithExpiry("token");
     const ticketId = {
       ticketId: ticketData.id,
     };

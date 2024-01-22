@@ -1,5 +1,8 @@
 import axios from "axios";
 
+const host = import.meta.env.VITE_API_HOST;
+const port = import.meta.env.VITE_API_PORT;
+
 export async function login({ email, password }) {
   const payload = {
     email: email,
@@ -7,7 +10,7 @@ export async function login({ email, password }) {
   };
 
   const { data } = await axios.post(
-    "http://127.0.0.1:8080/user/token/",
+    `http://${host}:${port}/user/token/`,
     payload
   );
 
@@ -21,7 +24,7 @@ export async function getUserProfile({ token }) {
     },
   };
 
-  const { data } = await axios.get("http://127.0.0.1:8080/user/me/", config);
+  const { data } = await axios.get(`http://${host}:${port}/user/me/`, config);
   return data;
 }
 
@@ -33,7 +36,7 @@ export async function changeUserProfile({ token }, payload) {
   };
 
   const { data } = await axios.patch(
-    "http://127.0.0.1:8080/user/me/",
+    `http://${host}:${port}/user/me/`,
     payload,
     config
   );

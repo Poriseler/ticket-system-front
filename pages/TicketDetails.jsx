@@ -5,13 +5,14 @@ import styled from "styled-components";
 import { convertDate } from "../helpers/dateOperations";
 import Status from "../ui/Status";
 import Button from "../ui/Button";
-import { useQueryClient } from "@tanstack/react-query";
+// import { useQueryClient } from "@tanstack/react-query";
 import CommentForm from "../features/comments/CommentForm";
 import CommentSection from "../features/comments/CommentSection";
 import EditTicketModal from "../features/tickets/EditTicketModal";
 import { useEffect, useState } from "react";
 import Spinner from "../ui/Spinner";
 import toast from "react-hot-toast";
+import {getWithExpiry} from "../helpers/localStorageOperations";
 
 const Container = styled.div`
   display: flex;
@@ -25,6 +26,7 @@ const Container = styled.div`
   margin-top: 5rem;
   border-radius: 10px;
   box-shadow: 2px 2px 6px black;
+  width: 100%;
 `;
 
 const Div = styled.div`
@@ -66,15 +68,19 @@ function TicketDetails() {
   const { isLoading, error, data } = useTicketDetails(ticketId);
   const { updateTicket, isUpdating } = useTicketChange();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const [owner, setOwner] = useState(null);
   const [token, setToken] = useState(null);
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
-    setOwner(queryClient.getQueryData(["email"]));
-    setToken(queryClient.getQueryData(["token"]));
-  }, [queryClient]);
+    // setOwner(queryClient.getQueryData(["email"]));
+    setOwner(getWithExpiry("email"));
+    // setOwner(localStorage.getItem("email"));
+    // setToken(queryClient.getQueryData(["token"]));
+    setToken(getWithExpiry("token"));
+    // setToken(localStorage.getItem("token"));
+  }, []);
 
   if (isLoading) return <Spinner />;
   if (error) return toast.error(`Error: ${error.message}`);
@@ -172,7 +178,7 @@ function TicketDetails() {
           </InfoBox>
         </Div>
       </Container>
-      {token !== 0 && status !== "CLOSED" && <CommentForm ticketId={id} />}
+      {token && status !== "CLOSED" && <CommentForm ticketId={id} />}
       <CommentSection comments={comments} ticketId={id} />
     </>
   );

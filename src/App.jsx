@@ -12,6 +12,7 @@ import CreateTicket from "../pages/CreateTicket";
 import Profile from "../pages/Profile";
 import Statistics from "../pages/Statistics";
 import { Toaster } from "react-hot-toast";
+import ProtectedRoute from "../ui/ProtectedRoute";
 
 function App() {
   const queryClient = new QueryClient({});
@@ -26,17 +27,43 @@ function App() {
             <Route path="/search" element={<SearchResults />} />
             <Route path="/tickets/:ticketId" element={<TicketDetails />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/profile" element={<Profile />} />
+
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* <PrivateRoute path="/protectedprofile" element={<Profile />} /> */}
+
             <Route path="/stats" element={<Statistics />} />
             <Route
               path="/tickets/assigned-to-me"
-              element={<TicketsAssignedToUser />}
+              element={
+                <ProtectedRoute>
+                  <TicketsAssignedToUser />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="/tickets/created-by-me"
-              element={<TicketsCreatedByUser />}
+              element={
+                <ProtectedRoute>
+                  <TicketsCreatedByUser />
+                </ProtectedRoute>
+              }
             />
-            <Route path="/tickets/create" element={<CreateTicket />} />
+            <Route
+              path="/tickets/create"
+              element={
+                <ProtectedRoute>
+                  <CreateTicket />
+                </ProtectedRoute>
+              }
+            />
           </Route>
         </Routes>
       </BrowserRouter>

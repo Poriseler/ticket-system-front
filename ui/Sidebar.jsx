@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import User from "./User";
 import Navigation from "./Navigation";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
+import {getWithExpiry} from "../helpers/localStorageOperations";
 
 const StyledSidebar = styled.aside`
   grid-row: 1 / -1;
@@ -16,17 +17,19 @@ const StyledSidebar = styled.aside`
 `;
 
 function Sidebar() {
-  const queryClient = useQueryClient();
-  const { data: token } = useQuery({
-    queryKey: ["token"],
-    queryFn: () => queryClient.getQueryData(["token"]),
-    initialData: 0,
-  });
-
+  // const queryClient = useQueryClient();
+  // const { data: token } = useQuery({
+  //   queryKey: ["token"],
+  //   // queryFn: () => queryClient.getQueryData(["token"]),
+  //   queryFn: () => localStorage.getItem("token"),
+  //   initialData: 0,
+  // });
+  // const token = localStorage.getItem("token");
+  const token = getWithExpiry("token");
   return (
     <>
       <StyledSidebar logged={token ? "true" : "false"}>
-        {token !== 0 && <User />}
+        {token && <User />}
         <Navigation />
       </StyledSidebar>
     </>

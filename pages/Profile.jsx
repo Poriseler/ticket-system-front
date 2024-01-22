@@ -1,9 +1,10 @@
-import { useQueryClient } from "@tanstack/react-query";
+// import { useQueryClient } from "@tanstack/react-query";
 import { useGetProfile } from "../features/auth/useGetProfile";
 import EditProfileForm from "../features/auth/EditProfileForm";
 import Spinner from "../ui/Spinner";
 import Heading from "../ui/Heading";
 import styled from "styled-components";
+import { getWithExpiry } from "../helpers/localStorageOperations";
 
 const Div = styled.div`
   display: flex;
@@ -13,8 +14,10 @@ const Div = styled.div`
 `;
 
 function Profile() {
-  const queryClient = useQueryClient();
-  const token = queryClient.getQueryData(["token"]);
+  // const queryClient = useQueryClient();
+  // const token = queryClient.getQueryData(["token"]);
+  // const token = localStorage.getItem("token");
+  const token = getWithExpiry("token");
   const { data, isLoading } = useGetProfile(token);
   if (isLoading) return <Spinner />;
   return (
