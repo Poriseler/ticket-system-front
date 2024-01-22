@@ -13,7 +13,7 @@ export function useCreateTicket() {
       navigate("/", { replace: true });
     },
     onError: (err) => {
-      toast.err(`Error: ${err.message}`);
+      toast.error(`Error: ${err.message}`);
     },
   });
 

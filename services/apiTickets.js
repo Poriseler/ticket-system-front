@@ -8,14 +8,15 @@ export async function fetchTicketDetails(ticketId) {
   return data;
 }
 
-export async function fetchTickets(params, pageNumber = 1) {
+export async function fetchTickets({params, pageNumber = 1}) {
   let url;
-
+ console.log(params)
   params
     ? (url = `http://127.0.0.1:8080/api/tickets?${params}&page=${pageNumber}`)
     : (url = `http://127.0.0.1:8080/api/tickets?page=${pageNumber}`);
   const { data } = await axios.get(url);
-
+  
+  console.log(data)
   return data;
 }
 
@@ -28,7 +29,6 @@ export async function ticketsCreatedByUser({ token }, pageNumber = 1) {
       },
     }
   );
-
   return data;
 }
 
