@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import Button from "./Button";
-// import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getWithExpiry } from "../helpers/localStorageOperations";
+import { useNavigate } from "react-router-dom";
 const H3 = styled.h3`
   margin-top: 1rem;
   text-align: center;
@@ -23,24 +22,15 @@ const Div = styled.div`
 `;
 
 function User() {
-  // const queryClient = useQueryClient();
-  const navigate = useNavigate();
   const [email, setEmail] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
-    // setEmail(queryClient.getQueryData(["email"]));
-    // setEmail(localStorage.getItem("token"));
     setEmail(getWithExpiry("email"));
   }, []);
 
   function handleClick() {
-    // queryClient.setQueryData(["token"], 0);
-    // queryClient.invalidateQueries({
-    //   queryKey: ["token"],
-    // // });
-    localStorage.clear();
-    // localStorage.removeItem("token");
-    // localStorage.removeItem("email");
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
     navigate("/");
   }
   return (

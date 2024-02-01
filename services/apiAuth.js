@@ -17,7 +17,7 @@ export async function login({ email, password }) {
   return { data, email };
 }
 
-export async function getUserProfile({ token }) {
+export async function getUserProfile( token ) {
   const config = {
     headers: {
       Authorization: `Token ${token}`,

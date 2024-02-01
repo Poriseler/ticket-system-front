@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { useCreateTicket } from "../features/tickets/useCreateTicket";
 import { useState } from "react";
-// import { useQueryClient } from "@tanstack/react-query";
 import { useGetEmployees } from "../features/tickets/useGetEmployees";
 import Spinner from "../ui/Spinner";
 import toast from "react-hot-toast";
@@ -110,9 +109,7 @@ function CreateTicket() {
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("Low");
   const [assignTo, setAssignTo] = useState(1);
-  // const queryClient = useQueryClient();
-  // const token = queryClient.getQueryData(["token"]);
-  // const token = localStorage.getItem('token')
+
   const token = getWithExpiry("token");
   const { isLoading, error, data: asignees } = useGetEmployees(token);
 
@@ -130,7 +127,8 @@ function CreateTicket() {
     createTicket({ token, payload });
   }
   if (isLoading) return <Spinner />;
-  if (error) toast.err(error.message);
+  if (error) toast.error(error.message);
+  
   return (
     <Form>
       <Title>Create ticket</Title>

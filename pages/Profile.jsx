@@ -1,4 +1,3 @@
-// import { useQueryClient } from "@tanstack/react-query";
 import { useGetProfile } from "../features/auth/useGetProfile";
 import EditProfileForm from "../features/auth/EditProfileForm";
 import Spinner from "../ui/Spinner";
@@ -14,9 +13,6 @@ const Div = styled.div`
 `;
 
 function Profile() {
-  // const queryClient = useQueryClient();
-  // const token = queryClient.getQueryData(["token"]);
-  // const token = localStorage.getItem("token");
   const token = getWithExpiry("token");
   const { data, isLoading } = useGetProfile(token);
   if (isLoading) return <Spinner />;

@@ -1,19 +1,13 @@
-/* eslint-disable no-unused-vars */
 import styled from "styled-components";
 import TicketTile from "../features/tickets/TicketTile";
 import { useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import FilterBox from "../ui/FilterBox";
-import { fetchTickets } from "../services/apiTickets";
 import Button from "../ui/Button";
 import Spinner from "../ui/Spinner";
-import toast from "react-hot-toast";
-<<<<<<< Updated upstream
-import { useTickets } from "../features/tickets/useTickets";
-import { useInfiniteQuery } from "@tanstack/react-query";
-=======
 import TicketHeaderTile from "../ui/TicketHeaderTile";
->>>>>>> Stashed changes
+import { usePagination } from "../features/tickets/usePagination";
+import toast from "react-hot-toast";
 
 const Div = styled.div`
   display: flex;
@@ -41,24 +35,11 @@ function Homepage() {
   const [curPage, setCurPage] = useState(1);
   const [orderType, setOrderType] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
-  // const [tickets, setTickets] = useState(null);
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [isPrev, setIsPrev] = useState(null);
-  // const [isNext, setIsNext] = useState(null);
-  // const [count, setCount] = useState(null);
-  const { isLoading, data, refetch, ...results } = useInfiniteQuery({
-    queryKey: ["tickets", { filterParams }],
-    queryFn: ({ pageParam = 1, queryKey }) => {
-      const [_key, { filterParams }] = queryKey;
-      return fetchTickets({ pageParam, params: filterParams });
-    },
-    getNextPageParam: (lastPage, allPages, lastPageParam) => {
-      if (lastPage.next) return lastPageParam + 1;
-      return null;
-    },
-    initialPageParam: 1,
-  });
-  console.log(results);
+  const hasPreviousPage = curPage > 1;
+  const { isLoading, data, hasNextPage, isError, fetchNextPage } =
+    usePagination(filterParams);
+  const noPages = Math.floor(data?.pages[0]?.count / 10);
+
   const orderOptions = [
     {
       label: "Created At Asc",
@@ -85,45 +66,17 @@ function Homepage() {
       value: "priority-desc",
     },
   ];
-  // function handlePrevPage() {
-  //   setCurPage(curPage - 1);
-  // }
-  // function handleNextPage() {
-  //   setCurPage(curPage + 1);
-  // }
 
   function handleOrderTypeChange(value) {
     setOrderType(value);
     searchParams.set("order-by", orderType);
     setSearchParams(searchParams);
     setFilterParams(`order-by=${value}`);
-    // refetch();
   }
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const { results, next, previous, count } = await fetchTickets(
-  //       filterParams,
-  //       curPage
-  //     );
-  //     setIsNext(next);
-  //     setIsPrev(previous);
-  //     setCount(count);
-
-  //     setTickets(results);
-  //   }
-  //   try {
-  //     setIsLoading(true);
-  //     fetchData();
-  //     setIsLoading(false);
-  //   } catch (err) {
-  //     toast.error(`Error: ${err.message}`);
-  //     setIsLoading(false);
-  //   }
-  // }, [filterParams, curPage]);
-
   if (isLoading) return <Spinner />;
-
+  if (isError) toast.error("Something went wrong!");
+  
   return (
     <>
       <Container>
@@ -135,27 +88,32 @@ function Homepage() {
       </Container>
 
       <Div>
-<<<<<<< Updated upstream
-        {data?.pages[0].results.map((ticket) => (
-=======
         <TicketHeaderTile />
-        {tickets?.map((ticket) => (
->>>>>>> Stashed changes
+        {data?.pages[curPage - 1]?.results.map((ticket) => (
           <TicketTile key={ticket.id} data={ticket} />
         )) || <Spinner />}
       </Div>
-      {/* <Container>
-        <Button disabled={!isPrev} onClick={handlePrevPage}>
+      <Container>
+        <Button
+          disabled={!hasPreviousPage}
+          onClick={() => setCurPage(curPage - 1)}
+        >
           Previous
         </Button>
 
         <P>
-          Page {curPage} of {count <= 10 ? "1" : `${count / 10}`}
+          Page {curPage} of {noPages <= 10 ? "1" : noPages}
         </P>
-        <Button disabled={!isNext} onClick={handleNextPage}>
+        <Button
+          disabled={!(hasNextPage || data?.pages[curPage - 1]?.next)}
+          onClick={() => {
+            fetchNextPage();
+            setCurPage(curPage + 1);
+          }}
+        >
           Next
         </Button>
-      </Container> */}
+      </Container>
     </>
   );
 }

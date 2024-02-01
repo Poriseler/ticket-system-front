@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import styled from "styled-components";
 import TicketTile from "../features/tickets/TicketTile";
 // import { useQueryClient } from "@tanstack/react-query";
@@ -7,6 +8,7 @@ import Button from "../ui/Button";
 import Spinner from "../ui/Spinner";
 import toast from "react-hot-toast";
 import { getWithExpiry } from "../helpers/localStorageOperations";
+import { useTicketsAssignedToMe2 } from "../features/tickets/useTicketsAssignedToMe2";
 
 const Div = styled.div`
   display: flex;
@@ -30,16 +32,10 @@ const P = styled.p`
 `;
 
 function TicketsAssignedToUser() {
-  // const queryClient = useQueryClient();
-  // const token = queryClient.getQueryData(["token"]);
-  // const token = localStorage.getItem('token')
   const token = getWithExpiry("token");
-  const [isPrev, setIsPrev] = useState(null);
   const [curPage, setCurPage] = useState(1);
-  const [isNext, setIsNext] = useState(null);
-  const [tickets, setTickets] = useState(null);
+
   const [count, setCount] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   function handlePrevPage() {
     setCurPage(curPage - 1);
@@ -47,44 +43,40 @@ function TicketsAssignedToUser() {
   function handleNextPage() {
     setCurPage(curPage + 1);
   }
-  useEffect(() => {
-    async function fetchData() {
-      const { results, next, previous, count } = await ticketsAssignedToUser(
-        token,
-        curPage
-      );
-      setIsNext(next);
-      setIsPrev(previous);
-      setCount(count);
-      setTickets(results);
-    }
-    try {
-      setIsLoading(true);
-      fetchData();
-      setIsLoading(false);
-    } catch (err) {
-      toast.error(`Error: ${err.message}`);
-    }
-  }, [token, curPage]);
+  const hasPreviousPage = curPage > 1;
+  const { isLoading, data, hasNextPage, fetchNextPage, ...results } =
+    useTicketsAssignedToMe2(token);
+  const noPages = Math.floor(data?.pages[0]?.count / 10);
 
   if (isLoading) return <Spinner />;
 
   return (
-    (tickets?.length === 0 && <h1>Wow, such empty.</h1>) || (
+    (data?.pages[curPage - 1]?.results?.length === 0 && (
+      <h1>Wow, such empty.</h1>
+    )) || (
       <>
         <Div>
-          {tickets?.map((ticket) => (
+          {data?.pages[curPage - 1]?.results.map((ticket) => (
             <TicketTile key={ticket.id} data={ticket} />
           ))}
         </Div>
         <Container>
-          <Button disabled={!isPrev} onClick={handlePrevPage}>
+          <Button
+            disabled={!hasPreviousPage}
+            onClick={() => setCurPage(curPage - 1)}
+          >
             Previous
           </Button>
           <P>
-            Page {curPage} of {count <= 10 ? "1" : `${count / 10}`}
+            Page {curPage} of {noPages <= 10 ? "1" : noPages}
           </P>
-          <Button disabled={!isNext} onClick={handleNextPage}>
+          <Button
+            disabled={!(hasNextPage || data?.pages[curPage - 1]?.next)}
+            onClick={() => {
+              fetchNextPage();
+              setCurPage(curPage + 1);
+            }}
+          >
             Next
           </Button>
         </Container>

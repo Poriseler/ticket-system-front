@@ -1,7 +1,6 @@
-// import { useQueryClient } from "@tanstack/react-query";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import {getWithExpiry} from "../helpers/localStorageOperations";
+import { getWithExpiry } from "../helpers/localStorageOperations";
 import {
   IdentificationIcon,
   HomeIcon,
@@ -79,9 +78,6 @@ const Li = styled.li`
 `;
 
 function Navigation() {
-  // const queryClient = useQueryClient();
-  // const token = queryClient.getQueryData(["token"]);
-  // const token = localStorage.getItem("token");
   const token = getWithExpiry("token");
 
   return (

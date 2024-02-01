@@ -1,8 +1,45 @@
-# React + Vite
+# Welcome to ticket-system-front 👋
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Frontend intended specifically to use in conjuction with ticket-system-api available separately.
 
-Currently, two official plugins are available:
+## Install
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+After downloading repository, only requirement is to install all dependecies
+
+```sh
+# Clone the repository
+git clone https://github.com/Poriseler/ticket-system-api.git
+
+# Navigate to the project directory
+cd ticket-system-api
+
+# Install dependencies
+npm install
+```
+
+## Usage
+
+By default session time after login is set to 6 minutes and all requests are made to locally hosted backend on 8080 port. These settings may be changed by `.env` file in root directory. Application is run by command
+
+```sh
+npm run start
+```
+
+## Used libraries
+
+- [React Query](https://www.npmjs.com/package/react-query)
+- [React Router](https://reactrouter.com/en/main)
+- [HeroIcons](https://heroicons.com/)
+- [React Hot Toast](https://react-hot-toast.com/docs)
+- [Recharts](https://recharts.org/en-US/)
+- [StyledComponents](https://www.npmjs.com/package/styled-components)
+- [Axios](https://www.npmjs.com/package/axios)
+- [React Error Boundary](https://www.npmjs.com/package/react-error-boundary)
+
+## Tests
+
+> In progress
+
+## Project status
+
+Completed but soon enhanced with tests and additional page dedicated for admins.

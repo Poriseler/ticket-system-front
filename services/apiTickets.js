@@ -11,19 +11,19 @@ export async function fetchTicketDetails(ticketId) {
   return data;
 }
 
-export async function fetchTickets({params, pageNumber = 1}) {
+export async function fetchTickets({params, pageParam = 1}) {
   let url;
- console.log(params)
+  
   params
-    ? (url = `http://${host}:${port}/api/tickets?${params}&page=${pageNumber}`)
-    : (url = `http://${host}:${port}/api/tickets?page=${pageNumber}`);
+    ? (url = `http://${host}:${port}/api/tickets?${params}&page=${pageParam}`)
+    : (url = `http://${host}:${port}/api/tickets?page=${pageParam}`);
   const { data } = await axios.get(url);
   
-  console.log(data)
+
   return data;
 }
 
-export async function ticketsCreatedByUser({ token }, pageNumber = 1) {
+export async function ticketsCreatedByUser( token, pageNumber = 1) {
   const { data } = await axios.get(
     `http://${host}:${port}/api/tickets/my-tickets?page=${pageNumber}`,
     {
@@ -35,9 +35,11 @@ export async function ticketsCreatedByUser({ token }, pageNumber = 1) {
   return data;
 }
 
-export async function ticketsAssignedToUser({ token }, pageNumber = 1) {
+export async function ticketsAssignedToUser({ token, pageParam}) {
+  
+  
   const { data } = await axios.get(
-    `http://${host}:${port}/api/tickets/assigned-to-me?page=${pageNumber}`,
+    `http://${host}:${port}/api/tickets/assigned-to-me?page=${pageParam}`,
     {
       headers: {
         Authorization: `Token ${token}`,
@@ -58,7 +60,8 @@ export async function searchTickets(query, type) {
   return data;
 }
 
-export async function createTicket({ token }, payload) {
+export async function createTicket(token , payload) {
+  console.log(token)
   const config = {
     headers: {
       Authorization: `Token ${token}`,
@@ -74,7 +77,7 @@ export async function createTicket({ token }, payload) {
   return data;
 }
 
-export async function updateTicket({ token }, payload, { ticketId }) {
+export async function updateTicket( token , payload, { ticketId }) {
   const config = {
     headers: {
       Authorization: `Token ${token}`,
