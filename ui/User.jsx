@@ -24,6 +24,7 @@ const Div = styled.div`
 function User() {
   const [email, setEmail] = useState(null);
   const navigate = useNavigate();
+
   useEffect(() => {
     setEmail(getWithExpiry("email"));
   }, []);
@@ -31,6 +32,7 @@ function User() {
   function handleClick() {
     localStorage.removeItem("token");
     localStorage.removeItem("email");
+    window.dispatchEvent(new Event("storage"));
     navigate("/");
   }
   return (

@@ -10,6 +10,7 @@ export function setWithExpiry(key, value) {
     expiry: now.getTime() + Number(sessionTime),
   };
   localStorage.setItem(key, JSON.stringify(item));
+  window.dispatchEvent(new Event("storage"));
 }
 
 export function getWithExpiry(key) {
@@ -24,6 +25,7 @@ export function getWithExpiry(key) {
   if (now.getTime() > item.expiry) {
     localStorage.removeItem(key);
     toast.error(`Session expired, please login again.`);
+    window.dispatchEvent(new Event("storage"));
     return null;
   }
   return item.value;

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import User from "./User";
 import Navigation from "./Navigation";
 import { getWithExpiry } from "../helpers/localStorageOperations";
+import { useEffect, useState } from "react";
 
 const StyledSidebar = styled.aside`
   grid-row: 1 / -1;
@@ -16,7 +17,20 @@ const StyledSidebar = styled.aside`
 `;
 
 function Sidebar() {
-  const token = getWithExpiry("token");
+  const [token, setToken] = useState(getWithExpiry("token"));
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setToken(getWithExpiry("token"));
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
   return (
     <>
       <StyledSidebar logged={token ? "true" : "false"}>

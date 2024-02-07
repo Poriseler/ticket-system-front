@@ -38,7 +38,7 @@ function Homepage() {
   const hasPreviousPage = curPage > 1;
   const { isLoading, data, hasNextPage, isError, fetchNextPage } =
     usePagination(filterParams);
-  const noPages = Math.floor(data?.pages[0]?.count / 10);
+  const noPages = Math.ceil(data?.pages[0]?.count / 10);
 
   const orderOptions = [
     {
@@ -76,7 +76,7 @@ function Homepage() {
 
   if (isLoading) return <Spinner />;
   if (isError) toast.error("Something went wrong!");
-  
+
   return (
     <>
       <Container>
@@ -102,7 +102,7 @@ function Homepage() {
         </Button>
 
         <P>
-          Page {curPage} of {noPages <= 10 ? "1" : noPages}
+          Page {curPage} of {noPages <= 1 ? "1" : noPages}
         </P>
         <Button
           disabled={!(hasNextPage || data?.pages[curPage - 1]?.next)}

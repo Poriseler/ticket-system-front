@@ -10,6 +10,7 @@ import {
   UserIcon,
   FlagIcon,
 } from "@heroicons/react/24/outline";
+import { useEffect, useState } from "react";
 
 const NavList = styled.ul`
   display: flex;
@@ -78,8 +79,18 @@ const Li = styled.li`
 `;
 
 function Navigation() {
-  const token = getWithExpiry("token");
+  const [token, setToken] = useState(getWithExpiry("token"));
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setToken(getWithExpiry("token"));
+    };
 
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
   return (
     <Nav>
       <NavList>

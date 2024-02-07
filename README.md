@@ -40,6 +40,18 @@ npm run start
 
 > In progress
 
+## Credentials
+
+Emails:
+
+- user1@example.com
+- user2@example.com (non staff account)
+- user3@example.com
+- user4@example.com
+- user5@example.com
+
+Password for each account is the same: `Userpass!2`
+
 ## Project status
 
 Completed but soon enhanced with tests and additional page dedicated for admins.

@@ -8,7 +8,7 @@ export async function login({ email, password }) {
     email: email,
     password: password,
   };
-
+  
   const { data } = await axios.post(
     `http://${host}:${port}/user/token/`,
     payload
